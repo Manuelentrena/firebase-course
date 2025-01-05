@@ -4,7 +4,8 @@ import "firebase/firestore";
 
 import { AngularFirestore } from "@angular/fire/firestore";
 import { COURSES, findLessonsForCourse } from "./db-data";
-import { Course, Lesson } from "src/types";
+import { Course } from "../model/course";
+import { Lesson } from "../model/lesson";
 
 @Component({
   selector: "about",
