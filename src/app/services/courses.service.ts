@@ -116,4 +116,8 @@ export class CoursesService {
       this.db.doc(`${this.collectionName}/${courseId}`).update(changes)
     );
   }
+
+  public deleteCourse(courseId: string){
+    return from(this.db.doc(`${this.collectionName}/${courseId}`).delete());
+  }
 }

@@ -1,63 +1,73 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {Course} from "../model/course";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from "@angular/core";
+import { Course } from "../model/course";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import {EditCourseDialogComponent} from "../edit-course-dialog/edit-course-dialog.component";
-import {catchError, tap} from 'rxjs/operators';
-import {throwError} from 'rxjs';
-import {Router} from '@angular/router';
+import { EditCourseDialogComponent } from "../edit-course-dialog/edit-course-dialog.component";
+import { catchError, tap } from "rxjs/operators";
+import { throwError } from "rxjs";
+import { Router } from "@angular/router";
+import { DeleteCourseDialogComponent } from "../delete-course-dialog/delete-course-dialog.component";
 
 @Component({
-    selector: 'courses-card-list',
-    templateUrl: './courses-card-list.component.html',
-    styleUrls: ['./courses-card-list.component.css']
+  selector: "courses-card-list",
+  templateUrl: "./courses-card-list.component.html",
+  styleUrls: ["./courses-card-list.component.css"],
 })
 export class CoursesCardListComponent implements OnInit {
+  @Input()
+  courses: Course[];
 
-    @Input()
-    courses: Course[];
+  @Output()
+  courseEdited = new EventEmitter();
 
-    @Output()
-    courseEdited = new EventEmitter();
+  @Output()
+  courseDeleted = new EventEmitter<Course>();
 
-    @Output()
-    courseDeleted = new EventEmitter<Course>();
+  constructor(private dialog: MatDialog, private router: Router) {}
 
-    constructor(
-      private dialog: MatDialog,
-      private router: Router) {
-    }
+  ngOnInit() {}
 
-    ngOnInit() {
+  editCourse(course: Course) {
+    const dialogConfig = new MatDialogConfig();
 
-    }
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = "400px";
 
-    editCourse(course:Course) {
+    dialogConfig.data = course;
 
-        const dialogConfig = new MatDialogConfig();
+    this.dialog
+      .open(EditCourseDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((val) => {
+        if (val) {
+          this.courseEdited.emit();
+        }
+      });
+  }
 
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.minWidth = "400px";
+  deleteCourse(course: Course) {
+    const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.data = course;
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = "400px";
 
-        this.dialog.open(EditCourseDialogComponent, dialogConfig)
-            .afterClosed()
-            .subscribe(val => {
-                if (val) {
-                    this.courseEdited.emit();
-                }
-            });
+    dialogConfig.data = course;
 
-    }
-
+    this.dialog
+      .open(DeleteCourseDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((course) => {
+        if (course) {
+          this.courseDeleted.emit(course);
+        }
+      });
+  }
 }
-
-
-
-
-
-
-
-
-

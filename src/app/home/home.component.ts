@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit {
       this.courseService.loadCoursesByCategory("ADVANCED");
   }
 
-  public reloadCourses() {
+  public reloadCourses(course: Course) {
+    console.log({ course });
     this.loadCourses();
   }
 }
