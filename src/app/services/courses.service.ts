@@ -110,4 +110,10 @@ export class CoursesService {
       }))
     );
   }
+
+  public updateCourse(courseId: string, changes: Partial<Course>): Observable<void> {
+    return from(
+      this.db.doc(`${this.collectionName}/${courseId}`).update(changes)
+    );
+  }
 }
