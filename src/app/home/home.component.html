@@ -7,21 +7,32 @@
     </button>
   </div>
 
-  <mat-tab-group>
-    <mat-tab label="Beginners">
-      <courses-card-list
-        [courses]="beginnersCourses$ | async"
-        (courseEdited)="reloadCourses($event)"
-        (courseDeleted)="reloadCourses($event)"
-      ></courses-card-list>
-    </mat-tab>
+  <ng-container *ngIf="!urlCourseId; else oneCourse">
+    <mat-tab-group>
+      <mat-tab label="Beginners">
+        <courses-card-list
+          [courses]="beginnersCourses$ | async"
+          (courseEdited)="reloadCourses($event)"
+          (courseDeleted)="reloadCourses($event)"
+        ></courses-card-list>
+      </mat-tab>
+      <mat-tab label="Advanced">
+        <courses-card-list
+          [courses]="advancedCourses$ | async"
+          (courseEdited)="reloadCourses($event)"
+          (courseDeleted)="reloadCourses($event)"
+        ></courses-card-list>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
 
-    <mat-tab label="Advanced">
+  <ng-template #oneCourse>
+    <mat-tab-group>
       <courses-card-list
-        [courses]="advancedCourses$ | async"
+        [courses]="filterCourse$ | async"
         (courseEdited)="reloadCourses($event)"
         (courseDeleted)="reloadCourses($event)"
       ></courses-card-list>
-    </mat-tab>
-  </mat-tab-group>
+    </mat-tab-group>
+  </ng-template>
 </div>

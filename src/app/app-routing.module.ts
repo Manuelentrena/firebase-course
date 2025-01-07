@@ -10,35 +10,37 @@ import {CreateUserComponent} from './create-user/create-user.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeComponent
+    path: "",
+    component: HomeComponent,
   },
   {
-    path: 'create-course',
-    component: CreateCourseComponent
-
+    path: ":id",
+    component: HomeComponent,
   },
   {
-    path: 'create-user',
-    component: CreateUserComponent
-
+    path: "create-course",
+    component: CreateCourseComponent,
   },
   {
-    path: 'about',
-    component: AboutComponent
+    path: "create-user",
+    component: CreateUserComponent,
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: "about",
+    component: AboutComponent,
   },
   {
-    path: 'courses/:courseUrl',
-    component: CourseComponent
+    path: "login",
+    component: LoginComponent,
   },
   {
-    path: '**',
-    redirectTo: '/'
-  }
+    path: "courses/:courseUrl",
+    component: CourseComponent,
+  },
+  {
+    path: "**",
+    redirectTo: "/",
+  },
 ];
 
 @NgModule({

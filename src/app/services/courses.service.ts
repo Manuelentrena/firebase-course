@@ -20,6 +20,20 @@ export class CoursesService {
     return ref.where("categories", "array-contains", category).orderBy("seqNo");
   }
 
+  public loadCourseById(courseId: string): Observable<Course> {
+    return this.db
+      .doc<Course>(`${this.collectionName}/${courseId}`)
+      .get()
+      .pipe(
+        map((course) => {
+          return {
+            id: course.id,
+            ...(course.data() as Course),
+          };
+        })
+      );
+  }
+
   public loadCoursesByCategory(category: string): Observable<Course[]> {
     return this.db
       .collection<Course>(this.collectionName, (ref) =>
@@ -111,13 +125,16 @@ export class CoursesService {
     );
   }
 
-  public updateCourse(courseId: string, changes: Partial<Course>): Observable<void> {
+  public updateCourse(
+    courseId: string,
+    changes: Partial<Course>
+  ): Observable<void> {
     return from(
       this.db.doc(`${this.collectionName}/${courseId}`).update(changes)
     );
   }
 
-  public deleteCourse(courseId: string){
+  public deleteCourse(courseId: string) {
     return from(this.db.doc(`${this.collectionName}/${courseId}`).delete());
   }
 }

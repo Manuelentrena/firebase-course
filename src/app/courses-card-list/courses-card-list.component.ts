@@ -20,14 +20,11 @@ import { DeleteCourseDialogComponent } from "../delete-course-dialog/delete-cour
   styleUrls: ["./courses-card-list.component.css"],
 })
 export class CoursesCardListComponent implements OnInit {
-  @Input()
-  courses: Course[];
+  @Input() courses: Course[] = [];
 
-  @Output()
-  courseEdited = new EventEmitter();
+  @Output() courseEdited = new EventEmitter();
 
-  @Output()
-  courseDeleted = new EventEmitter<Course>();
+  @Output() courseDeleted = new EventEmitter<Course>();
 
   constructor(private dialog: MatDialog, private router: Router) {}
 
