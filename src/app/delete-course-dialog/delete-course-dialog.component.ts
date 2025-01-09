@@ -25,7 +25,7 @@ export class DeleteCourseDialogComponent {
   }
 
   public delete() {
-    this.courseService.deleteCourse(this.course.id).subscribe(() => {
+    this.courseService.deleteCourseAndLessons(this.course.id).subscribe(() => {
       this.dialogRef.close(this.course);
     });
   }

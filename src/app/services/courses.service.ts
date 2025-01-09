@@ -5,6 +5,7 @@ import { Course } from "../model/course";
 import firebase from "firebase/app";
 import { concatMap, map } from "rxjs/operators";
 import { convertSnaps } from "../utils";
+import { Lesson } from "../model/lesson";
 
 @Injectable({
   providedIn: "root",
@@ -136,5 +137,33 @@ export class CoursesService {
 
   public deleteCourse(courseId: string) {
     return from(this.db.doc(`${this.collectionName}/${courseId}`).delete());
+  }
+
+  public deleteCourseAndLessons(courseId: string) {
+    return this.db
+      .collection(`${this.collectionName}/${courseId}/lessons`)
+      .get()
+      .pipe(
+        concatMap((snapsLessons) => {
+          const lessons = convertSnaps<Lesson>(snapsLessons);
+
+          const batch = this.db.firestore.batch();
+
+          const courseRef = this.db.doc(
+            `${this.collectionName}/${courseId}`
+          ).ref;
+
+          batch.delete(courseRef);
+
+          for (let lesson of lessons) {
+            const lessonRef = this.db.doc(
+              `${this.collectionName}/${courseId}/lessons/${lesson.id}`
+            ).ref;
+            batch.delete(lessonRef);
+          }
+
+          return from(batch.commit());
+        })
+      );
   }
 }
