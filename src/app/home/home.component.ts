@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Course } from "../model/course";
 import { Observable, of } from "rxjs";
-import { catchError, map } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 import { CoursesService } from "../services/courses.service";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "home",
@@ -21,8 +21,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private courseService: CoursesService,
-    private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -49,10 +48,6 @@ export class HomeComponent implements OnInit {
     this.filterCourse$ = this.courseService
       .loadCourseById(this.urlCourseId)
       .pipe(map((course) => [course]));
-
-    this.filterCourse$.subscribe((courses) => {
-      this.cdRef.detectChanges(); // Forzar la detección de cambios
-    });
   }
 
   public loadCourses() {

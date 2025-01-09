@@ -28,11 +28,13 @@
 
   <ng-template #oneCourse>
     <mat-tab-group>
-      <courses-card-list
-        [courses]="filterCourse$ | async"
-        (courseEdited)="reloadCourses($event)"
-        (courseDeleted)="reloadCourses($event)"
-      ></courses-card-list>
+      <mat-tab label="One Course">
+        <courses-card-list
+          [courses]="filterCourse$ | async"
+          (courseEdited)="reloadCourses($event)"
+          (courseDeleted)="reloadCourses($event)"
+        ></courses-card-list>
+    </mat-tab>
     </mat-tab-group>
   </ng-template>
 </div>
