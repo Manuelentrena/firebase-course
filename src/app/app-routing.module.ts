@@ -11,14 +11,6 @@ import { CourseResolver } from './services/course.resolver';
 
 const routes: Routes = [
   {
-    path: "",
-    component: HomeComponent,
-  },
-  {
-    path: ":id",
-    component: HomeComponent,
-  },
-  {
     path: "create-course",
     component: CreateCourseComponent,
   },
@@ -35,11 +27,23 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: "courses",
+    component: HomeComponent,
+  },
+  {
     path: "courses/:courseUrl",
     component: CourseComponent,
     resolve: {
       course: CourseResolver,
     },
+  },
+  {
+    path: "",
+    component: HomeComponent,
+  },
+  {
+    path: ":id",
+    component: HomeComponent,
   },
   {
     path: "**",
