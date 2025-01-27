@@ -13,8 +13,9 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  public beginnersCourses$: Observable<Course[]>;
   public urlCourseId: string | null = null;
+  public beginnersCourses$: Observable<Course[]>;
+  public intermediateCourses$: Observable<Course[]>;
   public advancedCourses$: Observable<Course[]>;
   public filterCourse$: Observable<Course[]>;
 
@@ -53,6 +54,8 @@ export class HomeComponent implements OnInit {
   public loadCourses() {
     this.beginnersCourses$ =
       this.courseService.loadCoursesByCategory("BEGINNER");
+    this.intermediateCourses$ =
+      this.courseService.loadCoursesByCategory("INTERMEDIATE");
     this.advancedCourses$ =
       this.courseService.loadCoursesByCategory("ADVANCED");
   }

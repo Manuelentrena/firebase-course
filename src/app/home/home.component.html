@@ -16,6 +16,13 @@
           (courseDeleted)="reloadCourses($event)"
         ></courses-card-list>
       </mat-tab>
+      <mat-tab label="intermediate">
+        <courses-card-list
+          [courses]="intermediateCourses$ | async"
+          (courseEdited)="reloadCourses($event)"
+          (courseDeleted)="reloadCourses($event)"
+        ></courses-card-list>
+      </mat-tab>
       <mat-tab label="Advanced">
         <courses-card-list
           [courses]="advancedCourses$ | async"
