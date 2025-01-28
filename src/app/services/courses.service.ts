@@ -12,6 +12,7 @@ import { Lesson } from "../model/lesson";
 })
 export class CoursesService {
   private collectionName = "courses";
+  private subCollectionLessonsName = "lessons";
   constructor(private db: AngularFirestore) {}
 
   private buildCourseQuery(
@@ -169,7 +170,9 @@ export class CoursesService {
 
   public loadCourseByUrl(courseUrl: string): Observable<Course | null> {
     return this.db
-      .collection(this.collectionName, (ref) => ref.where("url", "==", courseUrl))
+      .collection(this.collectionName, (ref) =>
+        ref.where("url", "==", courseUrl)
+      )
       .get()
       .pipe(
         map((snaps) => {
@@ -177,5 +180,19 @@ export class CoursesService {
           return courses.length == 1 ? courses[0] : null;
         })
       );
+  }
+
+  public findLessons(courseId: string, sortOrder: 'asc' | 'desc' = 'asc', pageNumber: number = 0, pageSize: number = 3 ): Observable<Lesson[]> {
+     return this.db
+       .collection<Lesson>(
+         `${this.collectionName}/${courseId}/${this.subCollectionLessonsName}`,
+         (ref) =>
+           ref
+             .orderBy("seqNo", sortOrder)
+             .startAt(pageNumber * pageSize)
+             .limit(pageSize)
+       )
+       .get()
+       .pipe(map((snaps) => convertSnaps<Lesson>(snaps)));
   }
 }
